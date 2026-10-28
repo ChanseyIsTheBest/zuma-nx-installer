@@ -1,0 +1,124 @@
+{
+  "version": 1,
+  "builds": [
+    {
+      "edition": "Xbox Live Arcade (title 584107EF)",
+      "version": "1.0.0",
+      "xex_sha256": "2df16e9aaef2f0dcace2b4d02f2cb78bad3e1a392a65b66e616a9e96fde5e267",
+      "xexp_sha256": "db9e03ca1b90948fd5fd3c18a02bd2a6a78ad304a2adefe98b741018c06ad157",
+      "game_files": [
+        {
+          "path": "ArcadeInfo.xml",
+          "size": 6770
+        },
+        {
+          "path": "Images/Live/CERO_C.png",
+          "size": 2185
+        },
+        {
+          "path": "Images/Live/ESRB_E.png",
+          "size": 1453
+        },
+        {
+          "path": "Images/Live/KMRB_A.png",
+          "size": 5574
+        },
+        {
+          "path": "Images/Live/OFLC_AU_A.png",
+          "size": 710
+        },
+        {
+          "path": "Images/Live/PEGI_3P.png",
+          "size": 1696
+        },
+        {
+          "path": "Images/Live/PEGI_4P.png",
+          "size": 1618
+        },
+        {
+          "path": "Images/Live/USK_A.png",
+          "size": 853
+        },
+        {
+          "path": "Images/Live/ach_01.png",
+          "size": 7710
+        },
+        {
+          "path": "Images/Live/ach_02.png",
+          "size": 8952
+        },
+        {
+          "path": "Images/Live/ach_03.png",
+          "size": 8886
+        },
+        {
+          "path": "Images/Live/ach_04.png",
+          "size": 8679
+        },
+        {
+          "path": "Images/Live/ach_05.png",
+          "size": 10143
+        },
+        {
+          "path": "Images/Live/ach_06.png",
+          "size": 7854
+        },
+        {
+          "path": "Images/Live/ach_07.png",
+          "size": 8011
+        },
+        {
+          "path": "Images/Live/ach_08.png",
+          "size": 8997
+        },
+        {
+          "path": "Images/Live/ach_09.png",
+          "size": 8350
+        },
+        {
+          "path": "Images/Live/ach_10.png",
+          "size": 8076
+        },
+        {
+          "path": "Images/Live/ach_11.png",
+          "size": 9617
+        },
+        {
+          "path": "Images/Live/ach_12.png",
+          "size": 10475
+        },
+        {
+          "path": "Images/Logo_PopCap_and_Oberon.jpg",
+          "size": 141417
+        },
+        {
+          "path": "Images/_Logo_PopCap_and_Oberon.png",
+          "size": 5725
+        },
+        {
+          "path": "Images/title_image.png",
+          "size": 8512
+        },
+        {
+          "path": "Resources/resources.xpr",
+          "size": 22943756
+        },
+        {
+          "path": "dashboard_image.png",
+          "size": 8512
+        },
+        {
+          "path": "default.xex",
+          "size": 4038656
+        },
+        {
+          "path": "properties/imagedesc.txt",
+          "size": 5656
+        }
+      ],
+      "nro": "zuma.nro",
+      "nro_sha256": "6dcc3268ac3b4a03719a804c635d13eb403d120bcdfba2d9799ccc1dcd0bc548",
+      "nro_size": 24949661
+    }
+  ]
+}
