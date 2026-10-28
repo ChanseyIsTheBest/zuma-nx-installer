@@ -3,7 +3,7 @@
   "builds": [
     {
       "edition": "Xbox Live Arcade (title 584107EF)",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "xex_sha256": "2df16e9aaef2f0dcace2b4d02f2cb78bad3e1a392a65b66e616a9e96fde5e267",
       "xexp_sha256": "db9e03ca1b90948fd5fd3c18a02bd2a6a78ad304a2adefe98b741018c06ad157",
       "game_files": [
@@ -117,8 +117,8 @@
         }
       ],
       "nro": "zuma.nro",
-      "nro_sha256": "6dcc3268ac3b4a03719a804c635d13eb403d120bcdfba2d9799ccc1dcd0bc548",
-      "nro_size": 24949661
+      "nro_sha256": "37ce8d4ba85f0126aff442b6149c099440fbc8da5b0abe3d8210004a15e304eb",
+      "nro_size": 24957853
     }
   ]
 }
