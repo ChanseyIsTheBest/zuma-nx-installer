@@ -26,7 +26,10 @@ your browser: the game files never leave your computer.
    files by their sizes.
 3. **Downloads the build's NRO** and checks its SHA-256.
 4. **Writes the game pack** (`game_root.nxpack` + `.nxidx`, `lib/nxpack.js`) from the game's files, its folders
-   included, and the title update's `default.xexp`.
+   included, and the title update's `default.xexp`. Each file is stored compressed (LZ4 for the archives the loading
+   screens read, ZXC for the rest: `lib/lz4b.js`, with `wasm/lz4` and `wasm/zxc` on worker threads, `pack_worker.js`),
+   and the game's XMA sounds are re-encoded as Opus by the browser's own encoder (WebCodecs: `lib/xma_sounds.js`,
+   `lib/audio.js`, `wasm/xma`) where that is smaller. A browser without an Opus encoder keeps the XMA sounds.
 5. **Streams the zip to disk** through the service worker, so nothing large has to fit in memory.
 
 The game compiles all of its 7 shaders while it runs, with the Xbox's shader compiler, so none is stored in its

@@ -2,6 +2,49 @@
 // From bejeweled3-nx-installer's worker.js, without the shader step's WebAssembly modules.
 import { createPackage, findGames, identifyGames, releasePath, sha256 } from './lib/installer.js';
 import { setLanguage, t } from './lib/i18n.js';
+import { CODECS } from './lib/lz4b.js';
+import { workerPool } from './lib/pool.js';
+import { canEncodeOpus, encodeWebCodecs } from './lib/audio.js';
+import createXmaModule from './wasm/xma.mjs';
+
+// The PopCap ports (2026-11-24, rr6-nx-installer's worker.js): count pack_worker.js workers (LZ4 HC and ZXC in
+// WebAssembly), each started and ready, as lib/pool.js takes them.
+function startPackWorkers(count) {
+  return Promise.all(Array.from({ length: count }, () => new Promise((resolve, reject) => {
+    const w = new Worker('./pack_worker.js', { type: 'module' });
+    w.onerror = (e) => reject(new Error(`pack_worker.js: ${e.message}`));
+    w.addEventListener('message', ({ data }) => {
+      if (data.ready) {
+        resolve({ w, post: (m, transfer) => w.postMessage(m, transfer),
+          onMessage: (cb) => w.addEventListener('message', ({ data: d }) => cb(d)) });
+      }
+    }, { once: true });
+  })));
+}
+
+// The PopCap ports (2026-11-24): the sounds' Opus re-encode for lib/media.js, when this browser has an Opus encoder
+// (WebCodecs); without one the sounds stay XMA. wasm/xma made once.
+let xmaModule = null;
+async function audioMaker() {
+  if (!(await canEncodeOpus())) {
+    log(t('noOpusEncoder'));
+    return null;
+  }
+  if (!xmaModule) xmaModule = await createXmaModule({ print: () => {}, printErr: () => {} });
+  return { xma: xmaModule, encode: encodeWebCodecs, jobs: 6 };
+}
+
+// compress(bytes, codec) for lib/media.js: the block on the next free packing worker (made at the first package).
+let packCompress = null;
+async function packCompressor() {
+  if (!packCompress) {
+    const cores = Math.max(1, (navigator.hardwareConcurrency || 4) - 1);
+    const pool = workerPool(await startPackWorkers(cores));
+    packCompress = (bytes, codec) => pool.run({ bytes, codec, level: CODECS[codec].level, block: CODECS[codec].block },
+      [bytes.buffer]).then((r) => r.bytes);
+  }
+  return packCompress;
+}
 
 const log = (text) => postMessage({ type: 'log', text });
 const progress = (fraction) => postMessage({ type: 'progress', fraction });
@@ -95,7 +138,8 @@ self.onmessage = async ({ data }) => {
     ]);
     const release = { manifest, nro, licenses };
     const result = await createPackage(chosen, release, sink, log, progress,
-      (size) => postMessage({ type: 'size', size }), { update: Boolean(data.update) });
+      (size) => postMessage({ type: 'size', size }), { update: Boolean(data.update), compress: data.update ? null : await packCompressor(),
+        audio: data.update ? null : await audioMaker() });
     postMessage({ type: 'done', result });
   } catch (error) {
     const message = error.message || String(error);
